@@ -1,0 +1,31 @@
+================================================================================
+                                                         *markup-previewer.nvim*
+Preview markup files converted by pandoc.
+
+                                                     *markup-previewer.setup*
+require("markup-previewer").setup(opts)
+
+    This function enable the plugin, allowing the user to set the default
+    options, that is, the options that the |MarkupPreviewer| command will take
+    when only one argument is passed.
+
+    defaults.pandoc.outfmt,         The format of the output file.
+    defaults.pandoc.outfile_prefix  The prefix of the output file.
+    defaults.reader.cmd             The reader command.
+
+    Here are the default ones: >
+
+        require("markup-previewer").setup({
+            defaults = {
+                pandoc = {
+                    outfmt = "pdf",
+                    outfile_prefix = "MarkupPreviewer",
+                },
+                reader = {
+                    cmd = "zathura",
+                }
+            }
+        })
+<
+
+    vim:tw=80:ft=help:ts=8:norl:
