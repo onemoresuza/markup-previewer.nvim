@@ -53,6 +53,8 @@ end
 ---@param outfmt? string pandoc file type
 ---@return boolean|nil error
 ---@return string errmsg the error message when the function returns false
+-- This function gets pandoc's "--to" argument from Neovim's "filetype"
+-- option.
 local function convert(input, outfmt)
     local pandoc = {
         exec = {
@@ -60,6 +62,12 @@ local function convert(input, outfmt)
             "--standalone"
         },
     }
+
+    local ft = vim.api.nvim_buf_get_option(0, "ft")
+    if string.len(ft) ~= 0 then
+        table.insert(pandoc.exec, "--to")
+        table.insert(pandoc.exec, ft)
+    end
 
     if outfmt then
         pandoc.outfmt = outfmt
