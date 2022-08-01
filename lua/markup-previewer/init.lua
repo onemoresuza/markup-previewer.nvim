@@ -65,7 +65,7 @@ local function convert(input, outfmt)
 
     local ft = vim.api.nvim_buf_get_option(0, "ft")
     if string.len(ft) ~= 0 then
-        table.insert(pandoc.exec, "--to")
+        table.insert(pandoc.exec, "--from")
         table.insert(pandoc.exec, ft)
     end
 
