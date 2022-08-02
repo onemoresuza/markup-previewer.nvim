@@ -152,6 +152,8 @@ local function read(file, adhoc_reader)
         {
             on_exit = function(_, exitcode)
                 reader.exitcode = exitcode
+                reader.file = {}
+                reader.file.is_del, reader.file.errmsg = os.remove(file)
             end,
             stderr_buffered = true,
             on_stderr = function(_, data)
@@ -164,8 +166,18 @@ local function read(file, adhoc_reader)
 
     vim.fn.jobwait({ reader.pid }, -1)
 
-    if reader.exitcode ~= 0 then
-        return nil, table.concat({ reader.cmd, "--", reader.errmsg }, " ")
+    if reader.exitcode ~= 0 or not reader.file.is_del then
+        local errmsg = {}
+
+        if reader.exitcode ~= 0 then
+            table.insert(errmsg, table.concat({
+                reader.cmd, "--", reader.errmsg
+            }, " "))
+        end
+
+        if reader.file.is_del then table.insert(errmsg, reader.file.errmsg) end
+
+        return nil, table.concat(errmsg, "\n")
     end
 
     return true, _
