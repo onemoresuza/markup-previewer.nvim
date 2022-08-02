@@ -48,6 +48,25 @@ function M.setup(opts)
     })
 end
 
+--- Return a pseudo-random alphanumeric string of the given length.
+---@param length integer
+---@return string
+local function randstr(length)
+    local charset = {
+        [0] = function() return string.char(math.random(48, 57)) end,
+        [1] = function() return string.char(math.random(65, 90)) end,
+        [2] = function() return string.char(math.random(97, 122)) end,
+    }
+
+    math.randomseed(os.clock() ^ 5)
+
+    local str = {}
+
+    for _ = 0, length do table.insert(str, charset[math.random(0, 2)]()) end
+
+    return table.concat(str)
+end
+
 --- Convert a markup file into the given output format.
 ---@param input string input markup file
 ---@param outfmt? string pandoc file type
