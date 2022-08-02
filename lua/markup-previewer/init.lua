@@ -176,6 +176,7 @@ local function read(file, adhoc_reader)
 
     if not reader.have_run then return nil, reader.cmd .. " could not be executed" end
 
+    --[[
     vim.fn.jobwait({ reader.pid }, -1)
 
     if reader.exitcode ~= 0 or not reader.file.is_del then
@@ -191,6 +192,7 @@ local function read(file, adhoc_reader)
 
         return nil, table.concat(errmsg, "\n")
     end
+    ]] --
 
     return true, _
 end
