@@ -99,11 +99,23 @@ local function convert(input, outfmt)
 
     -- Needed by readers that depend on file extensions
     local epub_ext = string.match(pandoc.outfmt, "epub%d*")
+    pandoc.outfmt = epub_ext and "epub" or pandoc.outfmt
+
     pandoc.outfile = table.concat({
         defaults.pandoc.outfile_prefix,
         ".",
-        (epub_ext and "epub" or pandoc.outfmt)
+        randstr(16),
+        ".",
+        pandoc.outfmt,
     })
+
+    local tmpfile = os.tmpname()
+    local tmpdir = string.match(tmpfile, "^.*/")
+    pandoc.outfile = tmpdir .. pandoc.outfile
+    local rn_status, rn_errmsg = os.rename(tmpfile, pandoc.outfile)
+
+    -- "" to suppress string? error warnings
+    if not rn_status then return nil, "" .. rn_errmsg end
 
     table.insert(pandoc.exec, "--output")
     table.insert(pandoc.exec, pandoc.outfile)
