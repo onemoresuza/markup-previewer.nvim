@@ -62,7 +62,7 @@ local function randstr(length)
 
     local str = {}
 
-    for _ = 0, length do table.insert(str, charset[math.random(0, 2)]()) end
+    for _ = 1, length do table.insert(str, charset[math.random(0, 2)]()) end
 
     return table.concat(str)
 end
