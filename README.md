@@ -12,3 +12,12 @@ A Neovim plugin that makes previewing markup files as easy as typing
 
 This plugin uses the [busted unit testing framework](https://lunarmodules.github.io/busted/) through
 [plenary.nvim](https://github.com/nvim-lua/plenary.nvim) for its testing framework.
+
+## Dependencies
+
+1. [plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
+2. [Make](https://www.gnu.org/software/make/)
+
+## Running
+
+`$ make test`
